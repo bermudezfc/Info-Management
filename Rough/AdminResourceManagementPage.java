@@ -517,21 +517,29 @@ public class AdminResourceManagementPage extends JFrame {
 	//Reads the database file, and displays the information to the table. From selecting the room number from the combo box
 	// It will automatically update the table to retrieve the computers that are listed under the room.
 	public void getRoom(String input) {
+		// Acts as a tray for the data
 		ArrayList<String> computers = new ArrayList<>();
 		
 		try {
+			// reads the database file
 			br = new BufferedReader(new FileReader(database_path));
+			// take the model of the table and pass as "model"
 			DefaultTableModel model = (DefaultTableModel)table.getModel();
 			// stops the refresh button from adding the same data from txt file every click
 			model.setRowCount(0);
+			// while loop for sorting the computers by room number
 			String line;
 			while((line = br.readLine()) != null) {
+				// split the data by "/" then if index 0 or room is equals to the input in the comboBox or Room Number
+				// then replace all the first values or 0 index or room to blank/removes the room number from the line
+				// then finally add the remaining line of data to the computers arrayList
 				if(line.split("/")[0].equals(input)) {
 					computers.add(line.replaceAll("^\\d+/", ""));
 				}
 			}
-			
+			// convert the computers arrayList into a normal array and declare as tableLines array
 			Object[] tableLines = computers.toArray();
+			// for loop adding the trimmed data into the jTable 
 			for(int i = 0; i < tableLines.length; i++) {
 				
 				String lines = tableLines[i].toString().trim();
